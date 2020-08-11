@@ -1,0 +1,4 @@
+# Run this with ./run_tests in the root dir of the project from the terminal...
+# Requires installation of the pytest_pspec package!
+clear
+python3 -m pytest --tb=line --pspec tests/

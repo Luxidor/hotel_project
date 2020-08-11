@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Custom Chris ignores
+/hotel_test.py
+hotel/test.py

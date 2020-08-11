@@ -1,0 +1,24 @@
+{    
+    "rooms": [
+        {
+            "roomNum": 101,
+            "numOfBeds": 2,
+            "view": "poor"
+        },
+        {
+            "roomNum": 105,
+            "numOfBeds": 1,
+            "view": "poor"
+        },
+        {
+            "roomNum": 202,
+            "numOfBeds": 1,
+            "view": "decent"
+        },
+        {
+            "roomNum": 315,
+            "numOfBeds" : 2,
+            "view": "good"
+        }
+    ]
+}
