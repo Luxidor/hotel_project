@@ -1,31 +1,29 @@
-command_list = ["exit : exits the command line", ]
-
 class Command:
 
-    def __init__(self, hotelname, hoteljson):
-
+    def __init__(self):
+            self.running = False
+            self.command_list = ["exit : exits the command line"]
 
     def run(self):
-        while run_var == True:
-            cmd = input(">> ")
-            split()
-            
-        # get input
-        # parse input
-        # run command
-        # repeat
-        pass
+
+        self.running = True
+
+        if self.running == True :
+            while self.running == True:
+                val = input(">> ") 
+                print(val.split())
+                if "exit" in val.split():
+                    quit()
+                if "help" in val.split():
+                    help()
+        
+    def quit():
+        self.running = False
+        return self.running
 
     def help(self):
-        print(command_list)
-
-    def new_guest(self):
-        name = input()
+        print(self.command_list)
 
     def exit(self):
         run = False
         return run
-
-
-cmd = Command()
-cmd.run()

@@ -131,3 +131,4 @@ dmypy.json
 # Custom Chris ignores
 /hotel_test.py
 hotel/test.py
+.DS_Store

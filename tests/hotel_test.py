@@ -134,3 +134,9 @@ class HotelTest(unittest.TestCase):
         hotel.new_res_id()
 
         self.assertTrue(hotel.new_res_id() == "res-4")
+
+    def test_creating_reservation(self):
+        "should create reservations"
+        hotel = self.create_hotel()
+
+        hotel.create_res("bob", 2, "poor", 1)
