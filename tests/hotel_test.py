@@ -10,7 +10,7 @@ class HotelTest(unittest.TestCase):
     "testing the hotel's management of guests and reservations"
 
     def create_hotel(self):
-        hotel = Hotel("durham", "/Users/23morrisc/code/HotelProject/Rooms.json")
+        hotel = Hotel("durham", "/Users/23morrisc/code/hotel_project/Rooms.json")
         return hotel
 
     def test_storing_guests(self):
@@ -115,7 +115,9 @@ class HotelTest(unittest.TestCase):
         "should see that there is a room that matches the search but it is unavaiable"
         hotel = self.create_hotel()
 
-        self.assertTrue(match_list[0] == "there are no available rooms that match the search")
+        pass
+
+        self.assertTrue(False == "there are no available rooms that match the search")
 
     def test_storing_reservations(self):
         "should store a new res"
@@ -136,7 +138,9 @@ class HotelTest(unittest.TestCase):
         self.assertTrue(hotel.new_res_id() == "res-4")
 
     def test_creating_reservation(self):
-        "should create reservations"
+        "should create reservations and find the reservation"
         hotel = self.create_hotel()
 
-        hotel.create_res("bob", 2, "poor", 1)
+        hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
+
+        self.assertTrue(hotel.find_res_by_id("res-1") == "bob")

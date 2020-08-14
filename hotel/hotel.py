@@ -98,15 +98,50 @@ class Hotel:
         self.next_res_id += 1
         return "res-" + str(self.next_res_id)
                 
-    def create_res(self, guest_name, view_level, floor, desired_bed_num):
+    def create_res(self, guest_name, view_level, floor, desired_bed_num, start_date, end_date):
 
         res_list = []
 
-        self.all_rooms_check(view_level, floor, desired_bed_num)
-        matching_rooms = match_list
+        matching_rooms = self.all_rooms_check(view_level, floor, desired_bed_num)
 
         if not matching_rooms[0] == str:
             res_room_num = matching_rooms[0]
 
+            new_res = Reservation(guest_name, res_room_num, start_date, end_date)
+            id = self.new_res_id()
+
+            self.res_dict[id] = new_res
+
         else :
             print(matching_rooms)
+
+    def find_res_by_id(self, id):
+        res_list = self.find_res({"id": id})
+        if len(res_list) == 1:
+            return res_list[0]
+        else:
+            return null
+
+    def find_res(self, search = False):
+        res_list = []
+
+        if search == False:
+            for res in self.res_dict.values():
+                res_list.append(res)
+        else : 
+            for id, res in self.guest_dict.items():
+                if "id" in search:
+                    if search["id"] == id:
+                        res_list.append(res)
+
+                if "name" in search:
+                    if search["name"] == res.name:
+                        if not res in res_list:
+                            res_list.append(res)
+
+                if "phone" in search:
+                    if search["phone"] == res.phone_num:
+                        if not res in res_list:
+                            res_list.append(res)
+        return res_list
+                
