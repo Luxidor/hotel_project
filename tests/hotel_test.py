@@ -143,4 +143,4 @@ class HotelTest(unittest.TestCase):
 
         hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
 
-        self.assertTrue(hotel.find_res_by_id("res-1") == "bob")
+        self.assertTrue(hotel.find_res_by_id("res-1").occupant == "bob")

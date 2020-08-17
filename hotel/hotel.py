@@ -129,7 +129,7 @@ class Hotel:
             for res in self.res_dict.values():
                 res_list.append(res)
         else : 
-            for id, res in self.guest_dict.items():
+            for id, res in self.res_dict.items():
                 if "id" in search:
                     if search["id"] == id:
                         res_list.append(res)
