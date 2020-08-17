@@ -144,3 +144,19 @@ class HotelTest(unittest.TestCase):
         hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
 
         self.assertTrue(hotel.find_res_by_id("res-1").occupant == "bob")
+
+    def test_creating_reservation(self):
+        "should create reservations and find the reservation by name"
+        hotel = self.create_hotel()
+
+        hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
+
+        self.assertTrue(hotel.find_res({"name" : "bob"}).occupant == "bob")
+
+    def test_creating_reservation(self):
+        "should create reservations and find the reservation by start date"
+        hotel = self.create_hotel()
+
+        hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
+
+        self.assertTrue(hotel.find_res({"start date" : "startDate"}).occupant == "bob")

@@ -91,6 +91,9 @@ class Hotel:
                     else :
                         if not "there are no available rooms that match the search" in match_list and len(match_list) == 0:
                             match_list.append("there are no available rooms that match the search")
+        
+        for room in match_list:
+            self.check_if_in_use(room)
 
         return match_list
 
@@ -139,9 +142,17 @@ class Hotel:
                         if not res in res_list:
                             res_list.append(res)
 
-                if "phone" in search:
-                    if search["phone"] == res.phone_num:
+                if "start date" in search:
+                    if search["start date"] == res.phone_num:
                         if not res in res_list:
                             res_list.append(res)
+
         return res_list
-                
+
+        def check_if_in_use(self, room):
+        # returns rooms that overlap
+            overlap_list = []
+
+            for res in res_dict:
+                if room.room_num == room:
+                    overlap_list.append(room)
