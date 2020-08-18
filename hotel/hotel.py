@@ -20,6 +20,15 @@ class Hotel:
         self.next_guest_id = 0
         self.next_res_id = 0
 
+    
+    def check_if_in_use(self, room):
+    # returns rooms that overlap
+        overlap_list = []
+
+        for res in self.res_dict.values():
+            if res.room_num == room:
+                overlap_list.append(room)
+
     def new_guest_id(self):
         self.next_guest_id += 1
         return "guest-" + str(self.next_guest_id)
@@ -138,21 +147,13 @@ class Hotel:
                         res_list.append(res)
 
                 if "name" in search:
-                    if search["name"] == res.name:
+                    if search["name"] == res.occupant:
                         if not res in res_list:
                             res_list.append(res)
 
                 if "start date" in search:
-                    if search["start date"] == res.phone_num:
+                    if search["start date"] == res.start_date:
                         if not res in res_list:
                             res_list.append(res)
 
         return res_list
-
-        def check_if_in_use(self, room):
-        # returns rooms that overlap
-            overlap_list = []
-
-            for res in res_dict:
-                if room.room_num == room:
-                    overlap_list.append(room)

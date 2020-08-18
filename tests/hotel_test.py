@@ -112,12 +112,13 @@ class HotelTest(unittest.TestCase):
         self.assertTrue(match_list[0] == "there are no available rooms that match the search")
 
     def test_no_available_rooms_for_search(self):
-        "should see that there is a room that matches the search but it is unavaiable"
+        "should create 2 reservations with the same parameters and give them separate rooms"
         hotel = self.create_hotel()
 
-        pass
+        hotel.create_res("jim", "good", 3, 2, "2020-05-11", "2020-05-26")
+        hotel.create_res("bob", "good", 3, 2, "2020-05-11", "2020-05-26")
 
-        self.assertTrue(False == "there are no available rooms that match the search")
+        self.assertTrue(hotel.find_res_by_id("res-").room_num != 315)
 
     def test_storing_reservations(self):
         "should store a new res"
@@ -145,18 +146,18 @@ class HotelTest(unittest.TestCase):
 
         self.assertTrue(hotel.find_res_by_id("res-1").occupant == "bob")
 
-    def test_creating_reservation(self):
+    def test_creating_reservation_2(self):
         "should create reservations and find the reservation by name"
         hotel = self.create_hotel()
 
         hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
 
-        self.assertTrue(hotel.find_res({"name" : "bob"}).occupant == "bob")
+        self.assertTrue(hotel.find_res({"name" : "bob"})[0].occupant == "bob")
 
-    def test_creating_reservation(self):
+    def test_creating_reservation_3(self):
         "should create reservations and find the reservation by start date"
         hotel = self.create_hotel()
 
         hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
 
-        self.assertTrue(hotel.find_res({"start date" : "startDate"}).occupant == "bob")
+        self.assertTrue(hotel.find_res({"start date" : "startDate"})[0].occupant == "bob")
