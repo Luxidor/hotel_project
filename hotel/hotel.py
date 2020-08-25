@@ -4,6 +4,8 @@ from collections import OrderedDict
 
 from hotel.guest import Guest
 
+from hotel.daterange import DateRange
+
 from hotel.reservation import Reservation
 
 class Hotel:
@@ -48,7 +50,7 @@ class Hotel:
         if len(guest_list) == 1:
             return guest_list[0]
         else:
-            return null
+            return None
 
     # uses a dictionary as the arguement in this function, looks for the key in the dictionary, if none uses DEFAULT ARGUEMENT
     # finds guest based on either id, name or phone number
@@ -113,11 +115,21 @@ class Hotel:
     def create_res(self, guest_name, view_level, floor, desired_bed_num, start_date, end_date):
 
         res_list = []
-
+        counter = 0
         matching_rooms = self.all_rooms_check(view_level, floor, desired_bed_num)
+        res_room_num = matching_rooms[counter]
+        check = True
+
+        while check == True:
+            for res in res_dict:
+                if res.does_overlap(res_room_num, start_date, end_date):
+                    counter += 1
+                else :
+                    check = False
+
+                    
 
         if not matching_rooms[0] == str:
-            res_room_num = matching_rooms[0]
 
             new_res = Reservation(guest_name, res_room_num, start_date, end_date)
             id = self.new_res_id()
@@ -132,7 +144,7 @@ class Hotel:
         if len(res_list) == 1:
             return res_list[0]
         else:
-            return null
+            return None
 
     def find_res(self, search = False):
         res_list = []

@@ -118,7 +118,7 @@ class HotelTest(unittest.TestCase):
         hotel.create_res("jim", "good", 3, 2, "2020-05-11", "2020-05-26")
         hotel.create_res("bob", "good", 3, 2, "2020-05-11", "2020-05-26")
 
-        self.assertTrue(hotel.find_res_by_id("res-").room_num != 315)
+        self.assertTrue(hotel.find_res_by_id("res-2").room_num != 315)
 
     def test_storing_reservations(self):
         "should store a new res"
