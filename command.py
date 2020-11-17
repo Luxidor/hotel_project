@@ -6,7 +6,7 @@ from hotel.reservation import Reservation
 from collections import OrderedDict
 import json
 end = "\n"
-hotel = Hotel("durham", "/Users/23morrisc/code/hotel_project/Rooms.json")
+hotel = Hotel("durham", "./Rooms.json")
 
 # This is the command line script, it runs an infinite loop that prompts for input and runs code based on the input.
 # most of the work is done by the hotel and this directs the variables into it

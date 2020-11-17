@@ -10,12 +10,12 @@ from hotel.reservation import Reservation
 
 class Hotel:
     def __init__(self, location, room_directory):
-        with open(room_directory) as maui_rooms_list:
-            data = maui_rooms_list.read()
-            maui_rooms_list = json.loads(data)
+        with open(room_directory) as rooms_file:
+            data = rooms_file.read()
+            rooms_list = json.loads(data)
             
         self.location = location
-        self.room_dict = maui_rooms_list
+        self.room_dict = rooms_list
         self.guest_dict = OrderedDict()
         self.id_dict = []
         self.res_dict = {}

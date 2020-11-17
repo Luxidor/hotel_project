@@ -27,5 +27,6 @@ There were a variety of new concepts that I covered while working on this projec
 
 ## How to Run
 
-when in the project folder enter 'python3 command.py'
-type 'help' for commands when prompted by '>>'
+When in the project folder enter 'python3 command.py'
+
+Type 'help' for commands when prompted by '>>'
