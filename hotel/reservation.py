@@ -1,27 +1,24 @@
 from hotel.daterange import DateRange
 
+# Primarily this class just stores data about reservations
+
 class Reservation :
-    def __init__ (self, occupant, room_num, start, end):
+    def __init__ (self, occupant, id, room_num, start, end):
+        self.id = id
         self.occupant = occupant 
         self.room_num = room_num
-        self.start_date = start_date
-        self.end_date = end_date
+        self.start = start
+        self.end = end
         self.date_range = (start, end)
+
+    def __str__(self):
+        occ = str(self.occupant)
+        id = str(self.id)
+        room = str(self.room_num)
+        st = str(self.start)
+        end = str(self.end)
+        return ("name: " + occ + ", room number: " + room + ", start date: " + st + ", end date: " + end + ", id: " + id)
         
     def display_summary(self):
         print(self.occupant + ' is in room # ' + str(self.room_num) + " " + self.date_range.to_display())
-
-    def change_room(self, new_room):
-        self.room_num = new_room
-
-    def delete_res(self):
-        pass
-        # delete a person's reservation
-
-    def does_overlap(self, room, start_date, end_date):
-        if not self.room_num == room:
-            return False
-        else :
-            if self.start <= start_date and start_date <= self.end or start_date <= self.start and self.start <= end_date:
-                return True
 

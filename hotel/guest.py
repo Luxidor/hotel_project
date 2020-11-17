@@ -1,3 +1,5 @@
+# this class just stores guest data
+
 class Guest:
     def __init__(self, name, id, card_num, phone_num):
         self.name = name

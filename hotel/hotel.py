@@ -18,18 +18,32 @@ class Hotel:
         self.room_dict = maui_rooms_list
         self.guest_dict = OrderedDict()
         self.id_dict = []
-        self.res_dict = OrderedDict()
+        self.res_dict = {}
         self.next_guest_id = 0
         self.next_res_id = 0
 
     
-    def check_if_in_use(self, room):
-    # returns rooms that overlap
-        overlap_list = []
+    def check_if_in_use(self, room, start, end):
+    # returns rooms that don't overlap to use when creating reservations
+        bad_list = []
+        
 
-        for res in self.res_dict.values():
-            if res.room_num == room:
-                overlap_list.append(room)
+        if self.res_dict != 0:
+            for res in self.res_dict.values():
+
+                overlap_1 = res.start <= start and start <= res.end 
+                overlap_2 = start <= res.start and res.start <= end
+
+                if str(room) in str(res.room_num):
+
+                    if overlap_1 or overlap_2:
+                        bad_list.append(res)
+
+        if len(bad_list) == 0:
+            return True
+        
+        else :
+            return False
 
     def new_guest_id(self):
         self.next_guest_id += 1
@@ -41,6 +55,7 @@ class Hotel:
         #create the new guest in the Guest class
         new_guest = Guest(name, id, card_num, phone_num)
 
+        #creates the dictionary object with the new id as the key
         self.guest_dict[id] = new_guest
 
         return new_guest
@@ -77,34 +92,38 @@ class Hotel:
                             guests_list.append(guest)
         return guests_list
                 
-    # only works if the objects that are passed in have the __str__() finction
     def print_list(self, the_list):
+        # objects that are passed in need the __str__() finction otherwise <object.foo12345> will be printed
         if len(the_list) == 0:
             print("nothing matches the search")
         else:
             for elem in the_list:
-                print(elem)
+                print(elem) 
+
+    def print_all_rooms(self):
+        for room in self.room_dict["rooms"]:
+            print(room)
 
     
     def all_rooms_check(self, view_level, floor, desired_bed_num):
+        # attempts to find the best possible room to fit criteria given
         match_list = []
+
+        # starts by looking for a perfect match
         for room in self.room_dict["rooms"]:
             if room["view"] == view_level and str(room["roomNum"])[0] == str(floor) and desired_bed_num == room["numOfBeds"]:
                 match_list.append(room["roomNum"])
             
-        if len(match_list) == 0:
-            for room in self.room_dict["rooms"]:
-                if room["numOfBeds"] == desired_bed_num and str(room["roomNum"])[0] == str(floor):
+        for room in self.room_dict["rooms"]:
+            if room["numOfBeds"] == desired_bed_num and str(room["roomNum"])[0] == str(floor):
+                match_list.append(room["roomNum"])
+            else :
+                if room["numOfBeds"] == desired_bed_num:
                     match_list.append(room["roomNum"])
-                else :
-                    if room["numOfBeds"] == desired_bed_num:
-                        match_list.append(room["roomNum"])
-                    else :
-                        if not "there are no available rooms that match the search" in match_list and len(match_list) == 0:
-                            match_list.append("there are no available rooms that match the search")
-        
-        for room in match_list:
-            self.check_if_in_use(room)
+
+        # an error is thrown if there is not a singe room that has the right number of beds
+        if len(match_list) == 0:
+            match_list.append("there are no available rooms that match the search")
 
         return match_list
 
@@ -113,42 +132,31 @@ class Hotel:
         return "res-" + str(self.next_res_id)
                 
     def create_res(self, guest_name, view_level, floor, desired_bed_num, start_date, end_date):
-
+        # this creates a new reservation object and gets its name/view/floor/etc off of the input in command script
         res_list = []
-        counter = 0
-        matching_rooms = self.all_rooms_check(view_level, floor, desired_bed_num)
-        res_room_num = matching_rooms[counter]
-        check = True
+        good_room_list = []
 
-        while check == True:
-            for res in res_dict:
-                if res.does_overlap(res_room_num, start_date, end_date):
-                    counter += 1
-                else :
-                    check = False
+        id = self.new_res_id()
 
-                    
+        room_list = self.all_rooms_check(view_level, floor, desired_bed_num)
 
-        if not matching_rooms[0] == str:
+        if not type(room_list[0]) == str:
+            for room in room_list:
+                
+                if self.check_if_in_use(int(room), start_date, end_date):
+                    good_room_list.append(room)
 
-            new_res = Reservation(guest_name, res_room_num, start_date, end_date)
-            id = self.new_res_id()
-
+            new_res = Reservation(guest_name, id, int(good_room_list[0]), start_date, end_date)
             self.res_dict[id] = new_res
 
         else :
-            print(matching_rooms)
+            return "failed to create res"
 
-    def find_res_by_id(self, id):
-        res_list = self.find_res({"id": id})
-        if len(res_list) == 1:
-            return res_list[0]
-        else:
-            return None
 
     def find_res(self, search = False):
         res_list = []
-
+        # uses default arguement if nothing is inputted and prints all reservations, otherwise it finds the reservation
+        # based on the criteria given in the command line script
         if search == False:
             for res in self.res_dict.values():
                 res_list.append(res)
@@ -164,8 +172,18 @@ class Hotel:
                             res_list.append(res)
 
                 if "start date" in search:
-                    if search["start date"] == res.start_date:
+                    if search["start date"] == res.start:
                         if not res in res_list:
                             res_list.append(res)
 
         return res_list
+
+    def find_res_by_id(self, id):
+        res_list = self.find_res({"id": id})
+        if len(res_list) != 0:
+            return res_list[0]
+        else:
+            return None
+
+    def cancel_res(self, id):
+        del self.res_dict[id]

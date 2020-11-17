@@ -6,6 +6,9 @@ from hotel.reservation import Reservation
 from collections import OrderedDict
 import json
 
+# Unit tests! all of these are tests that are run every time a major change is made to ensure that nothing has broken
+# the descritions of each test is written in string format at the top of the test
+
 class HotelTest(unittest.TestCase):
     "testing the hotel's management of guests and reservations"
 
@@ -111,22 +114,13 @@ class HotelTest(unittest.TestCase):
 
         self.assertTrue(match_list[0] == "there are no available rooms that match the search")
 
-    def test_no_available_rooms_for_search(self):
-        "should create 2 reservations with the same parameters and give them separate rooms"
-        hotel = self.create_hotel()
-
-        hotel.create_res("jim", "good", 3, 2, "2020-05-11", "2020-05-26")
-        hotel.create_res("bob", "good", 3, 2, "2020-05-11", "2020-05-26")
-
-        self.assertTrue(hotel.find_res_by_id("res-2").room_num != 315)
-
     def test_storing_reservations(self):
         "should store a new res"
         hotel = self.create_hotel()
 
-        res_1 = Reservation("bob", 123, "startDate", "endDate")
+        res_1 = Reservation("bob", "res-1", 123,  "startDate", "endDate")
 
-        self.assertTrue(res_1.occupant == "bob")
+        self.assertEqual(res_1.occupant, "bob")
 
     def test_creating_res_ids(self):
         "should create a new id for res"
@@ -139,12 +133,12 @@ class HotelTest(unittest.TestCase):
         self.assertTrue(hotel.new_res_id() == "res-4")
 
     def test_creating_reservation(self):
-        "should create reservations and find the reservation"
+        "should create a reservation using the create_res function"
         hotel = self.create_hotel()
 
         hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
-
-        self.assertTrue(hotel.find_res_by_id("res-1").occupant == "bob")
+        
+        self.assertEqual(len(hotel.res_dict), 1)
 
     def test_creating_reservation_2(self):
         "should create reservations and find the reservation by name"
@@ -152,7 +146,7 @@ class HotelTest(unittest.TestCase):
 
         hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
 
-        self.assertTrue(hotel.find_res({"name" : "bob"})[0].occupant == "bob")
+        self.assertEqual(hotel.find_res({"name" : "bob"})[0].occupant, "bob")
 
     def test_creating_reservation_3(self):
         "should create reservations and find the reservation by start date"
@@ -160,4 +154,23 @@ class HotelTest(unittest.TestCase):
 
         hotel.create_res("bob", 2, "poor", 1, "startDate", "endDate")
 
-        self.assertTrue(hotel.find_res({"start date" : "startDate"})[0].occupant == "bob")
+        self.assertEqual(hotel.find_res({"start date" : "startDate"})[0].occupant, "bob")
+
+    def test_creating_reservation_4(self):
+        "should create reservations and find the reservation"
+        hotel = self.create_hotel()
+
+        hotel.create_res("bob", 2, "poor", 1, "2020-01-01", "2020-01-02")
+
+        self.assertEqual(hotel.find_res_by_id("res-1").occupant, "bob")
+        self.assertEqual(hotel.find_res_by_id("res-1").room_num, 105)
+
+    def test_final(self):
+        "should create 2 reservations with the same parameters and give them separate rooms"
+        hotel = self.create_hotel()
+
+        hotel.create_res("jim", 2, "poor", 1, "2020-05-11", "2020-05-26")
+        hotel.create_res("bob", 2, "poor", 1, "2020-05-11", "2020-05-26")
+
+        self.assertEqual(hotel.find_res_by_id("res-1").room_num, 105)
+        self.assertNotEqual(hotel.find_res_by_id("res-2").room_num, 105)
